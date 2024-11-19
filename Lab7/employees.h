@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
@@ -44,21 +45,31 @@ class Employee {
     }
 
     // Метод для додавання співробітника
-    bool addEmployee(int age, const std::string& name, const std::string& position) {
-        if ((int)(age) == age && (string)(name) == name && (string)(position) == position && age > 18)
-        {
+    bool addEmployee() {
+        
+        
             if (employeeCount < SIZE) {
                 for (int i = 0; i < SIZE; ++i) {
                     if (employees[i].name == "No Name") { // Знаходимо перше вільне місце
-                        employees[i] = {age, name, position};
-                        employeeCount++;
-                        return true;
+                    std::cout << "Enter employee's name: "<< std::endl;
+                    getline(std::cin, employees[i].name);
+
+                    std::cout << "Enter employee's age: " << std::endl;
+                    std::cin >> employees[i].age;
+
+                    std::cout << "Enter employee's position: " << std::endl;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    getline(std::cin, employees[i].position);
+
+                    
+                    employeeCount++;
+                    return true;
                 }
             }
         }
             std::cout << "Array is full, cannot add more employees." << std::endl;
             return false; // Якщо масив заповнений
-        }
+        
 
         std::cout << "Invalid type for age, name or position." << std::endl;
         return false;
