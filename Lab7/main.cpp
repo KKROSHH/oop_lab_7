@@ -7,34 +7,29 @@ int main()
 {
     Employee empManager;
 
-    //empManager.printAllEmployees();
-    std::cout << std::endl;
-
-
-    empManager.addEmployee();
-    //empManager.addEmployee();
-
-    empManager.printAllEmployees();
-    std::cout << std::endl;
-
-
-    empManager.removeEmployee("Adam Gilber");
-    empManager.changeEmployeeAmount(150);
-
-    empManager.printAllEmployees();
-    std::cout << std::endl;
-
-    empManager.addEmployee();
-
-    empManager.printAllEmployees();
-    std::cout << std::endl;
 
     empManager.addEmployee();
     empManager.addEmployee();
+    empManager.addEmployee();
 
+    empManager.printEmployees();
+    std::cout << std::endl;
+
+    empManager.removeEmployee("2");
+    std::cout << std::endl;
     empManager.printAllEmployees();
     std::cout << std::endl;
 
-    
+    empManager.swapEmployees(1, 3);    
+    empManager.printEmployees();
+    std::cout << std::endl;
 
+    empManager.insertEmployee(1);
+    empManager.printEmployees();
+    std::cout << std::endl;
+    empManager.printAllEmployees();
+
+    empManager.changeEmployeeAmount(50);
+    empManager.printAllEmployees();
+    std::cout << std::endl;
 }
