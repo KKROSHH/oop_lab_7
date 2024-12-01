@@ -48,36 +48,57 @@ class Employee {
 
     // Метод для додавання співробітника
     bool addEmployee() {
-        
-        
-            if (employeeCount < SIZE) {
-                for (int i = 0; i < SIZE; ++i) {
-                    if (employees[i].name == "No Name") { // Знаходимо перше вільне місце
-                    std::cout << "Enter employee's name: "<< std::endl;
-                    getline(std::cin, employees[i].name);
-
-                    std::cout << "Enter employee's age: " << std::endl;
-                    std::cin >> employees[i].age;
-
-                    std::cout << "Enter employee's position: " << std::endl;
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    getline(std::cin, employees[i].position);
-
-                    
-                    employeeCount++;
-                    return true;
-                }
-            }
-        }
-            std::cout << "Array is full, cannot add more employees." << std::endl;
-            return false; // Якщо масив заповнений
-        
-
-        std::cout << "Invalid type for age, name or position." << std::endl;
-        return false;
-
-
+    if (employeeCount >= SIZE) {
+        std::cout << "Array is full, cannot add more employees." << std::endl;
+        return false; // Якщо масив заповнений
     }
+
+    for (int i = 0; i < SIZE; ++i) {
+        if (employees[i].name == "No Name") { // Знаходимо перше вільне місце
+
+            // Введення і перевірка імені
+            do {
+                std::cout << "Enter employee's name: ";
+                getline(std::cin, employees[i].name);
+                if (employees[i].name.empty()) {
+                    std::cout << "Name cannot be empty. Please try again." << std::endl;
+                }
+            } while (employees[i].name.empty());
+
+            // Введення і перевірка віку
+            do {
+                std::cout << "Enter employee's age: ";
+                std::cin >> employees[i].age;
+                if (std::cin.fail() || employees[i].age <= 0 || employees[i].age > 65) {
+                    std::cout << "Invalid age. Please enter a valid age (1-65)." << std::endl;
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                } else {
+                    break;
+                }
+            } while (true);
+
+            // Очистити буфер перед введенням рядка
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            // Введення і перевірка посади
+            do {
+                std::cout << "Enter employee's position: ";
+                getline(std::cin, employees[i].position);
+                if (employees[i].position.empty()) {
+                    std::cout << "Position cannot be empty. Please try again." << std::endl;
+                }
+            } while (employees[i].position.empty());
+
+            employeeCount++;
+            return true;
+        }
+    }
+
+    std::cout << "Unexpected error. Could not add employee." << std::endl;
+    return false;
+}
+
 
     // Метод для видалення співробітника за іменем
     bool removeEmployee(const std::string& name) {
@@ -138,16 +159,15 @@ class Employee {
 
     // Метод для вставки співробітника у конкретну позицію
     bool insertEmployee(int position) {
-    if (position < 0 || position >= SIZE || employeeCount >= SIZE) {
+    if (position < 1 || position > SIZE || employeeCount >= SIZE) {
         std::cout << "Invalid position or array is full. Insert failed." << std::endl;
         return false;
     }
-    if (employees[position].name != "No Name") {
+    if (employees[position - 1].name != "No Name") {
         std::cout << "Position already occupied. Insert failed." << std::endl;
         return false;
     }
 
-    // Введення даних нового співробітника
     std::string name;
     do {
         std::cout << "Enter employee's name: ";
@@ -161,8 +181,8 @@ class Employee {
     do {
         std::cout << "Enter employee's age: ";
         std::cin >> age;
-        if (std::cin.fail() || age <= 0 || age > 120) {
-            std::cout << "Invalid age. Please enter a valid age (1-120)." << std::endl;
+        if (std::cin.fail() || age <= 0 || age > 65) {
+            std::cout << "Invalid age. Please enter a valid age (1-65)." << std::endl;
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         } else {
@@ -171,6 +191,7 @@ class Employee {
     } while (true);
 
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очистити буфер
+
     std::string positionStr;
     do {
         std::cout << "Enter employee's position: ";
@@ -180,11 +201,11 @@ class Employee {
         }
     } while (positionStr.empty());
 
-    // Додати співробітника до вказаної позиції
     employees[position - 1] = {age, name, positionStr};
     employeeCount++;
     return true;
 }
+
 
 
 
